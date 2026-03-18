@@ -1,0 +1,39 @@
+# Secrets
+.env
+*.key
+*.pem
+credentials.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model artifacts (large files — store on Google Drive, not in repo)
+*.pt
+*.pth
+*.bin
+*.h5
+*.onnx
+checkpoints/
+
+# Node / Vercel
+node_modules/
+.next/
+.vercel/
