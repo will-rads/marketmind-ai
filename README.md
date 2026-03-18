@@ -270,7 +270,8 @@ All substantial changes logged in reverse chronological order. The most recent e
 1. Read this README first — it is the single source of truth for direction and architecture.
 2. Check `notes/experiments.md` for the latest training runs, scores, and technical decisions.
 3. Check the changelog (bottom of this file) for the latest state — especially the most recent entry.
-4. Briefly confirm to Will what the project is, what stage it's at, and what the next steps are. Then pick up where the last session ended.
+4. Read and internalize the **Security & Secrets** section. No API key, token, or credential should ever be committed, hardcoded, or appear in any file that reaches GitHub. This is a hard rule, not a suggestion.
+5. Briefly confirm to Will what the project is, what stage it's at, and what the next steps are. Then pick up where the last session ended.
 
 **On every change:**
 - **Always update the changelog** whenever any substantial change is made — scope shifts, new files, decisions, direction changes, experiments, training runs, model scores, or meaningful additions.
