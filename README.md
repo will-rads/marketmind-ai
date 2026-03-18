@@ -220,6 +220,18 @@ Star ratings are used as labels. This is a known noisy proxy — a 3-star review
 
 ---
 
+## Security & Secrets
+
+No API key, token, or secret should ever appear anywhere in this repository — not in source files, notebooks, config files, logs, screenshots, or documentation.
+
+**Local development:** Secrets are stored in a `.env` file at the project root. This file is `.gitignore`d and never committed. A `.env.example` file with placeholder variable names (no real values) is committed to document which keys the project requires.
+
+**Deployment (Vercel):** Environment variables and secrets are configured in the Vercel dashboard, not stored in the repo. The deployment flow pushes application code only — never files containing real credentials.
+
+**Enforcement:** `.gitignore` includes `.env`, `*.key`, and any other secret-bearing patterns. If a secret is accidentally committed, it must be rotated immediately — removing it from git history alone is not sufficient.
+
+---
+
 ## Project Documentation
 
 | Document | Purpose |
@@ -232,12 +244,15 @@ The README stays high-level. Detailed experiment results, hyperparameters, and p
 
 ---
 
-## Changelog
+## Changelog / Progress Log
 
 All substantial changes logged in reverse chronological order. The most recent entry reflects the current project state.
 
+**Policy:** Every meaningful change must be logged here — direction changes, architecture changes, new files, dataset decisions, experiment milestones, model results, demo updates, deployment-related decisions, and major prompt/pipeline changes. This log exists so that a fresh session (or a fresh pair of eyes) can recover full project context without reading git history.
+
 | Date | Entry |
 |------|-------|
+| 2026-03-18 | Added changelog policy (every meaningful change must be logged). Added security/secrets section — no keys in repo, .env for local secrets, Vercel dashboard for deployment secrets. Created .gitignore and .env.example. |
 | 2026-03-18 | **Major pivot.** Replaced interior design classifier with review intelligence for marketing generation. New direction: 3-class sentiment classifier (positive/neutral/negative from collapsed star ratings) on Amazon Reviews 2023, starting with All Beauty category. Pipeline: trained model → theme extraction (TF-IDF on grouped reviews) → Gemini campaign generation (copy + image). Models: TF-IDF + LR baseline, DistilBERT main. Sample size: 50K MVP, 100K final. Evaluation: accuracy, macro F1, per-class F1, confusion matrix, neutral-class ambiguity analysis, ablation (baseline vs. DistilBERT, generic vs. structured Gemini prompting). Restructured documentation: README for direction, notes/experiments.md for runs/scores, git for code. Added Vercel compatibility requirement. Added optional brand guidelines upload (post-MVP, Gemini-handled). |
 | 2026-03-18 | Added model training details for interior design project (now superseded by pivot above). |
 | 2026-03-17 | Added buyer persona selector to Stage 2 of interior design pipeline (now superseded). |
