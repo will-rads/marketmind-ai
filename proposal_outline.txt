@@ -1,0 +1,228 @@
+MarketMind AI — Proposal Outline
+Review Intelligence for Marketing Generation
+Will | MS Applied AI, Lebanese American University
+
+
+1. PROJECT OVERVIEW
+
+MarketMind AI is a marketing decision-support tool that reads thousands of
+product reviews, extracts what customers actually care about, and uses those
+insights to generate targeted ad campaigns.
+
+The real-world problem: marketing teams write campaigns based on intuition
+or a handful of reviews. They guess at what resonates with buyers. Meanwhile,
+thousands of reviews contain clear patterns about what people love, what
+frustrates them, and what leaves them indifferent — but nobody reads them
+at scale. This project automates that.
+
+
+2. WHY THIS MATTERS
+
+From an academic perspective: this project demonstrates a full applied AI
+pipeline — a trained classification model, an algorithmic product ranking
+layer, a structured analysis step, and a generative AI component working
+together. Each part has a clear role and is evaluated independently.
+
+From a marketing perspective: the system tells a marketing team which
+products to promote for a given campaign goal, shows them exactly what
+customers say about those products, and then generates campaign assets
+grounded in real customer language — not generic AI copy.
+
+
+3. DATASET
+
+Source: Amazon Reviews 2023 (McAuley Lab, UC San Diego)
+Available publicly on Hugging Face.
+
+Starting category: selected after data exploration based on review quality,
+volume, and variety. Likely candidates include All Beauty, Home & Kitchen,
+or Electronics.
+
+Sample size: 50,000 reviews for the initial model, 100,000 for the final
+version.
+
+Labels: Star ratings (1 to 5) already exist in the dataset. We collapse them
+into three classes:
+  - Positive (4-5 stars)
+  - Neutral (3 stars)
+  - Negative (1-2 stars)
+
+Limitation we will state honestly: star ratings are a noisy proxy for
+sentiment. A 3-star review that says "great product but terrible shipping"
+is genuinely mixed, but gets labeled as neutral. This noise is acknowledged
+and analyzed in the evaluation.
+
+
+4. CORE TASK: SENTIMENT CLASSIFICATION
+
+The trained model reads a product review and predicts whether it is positive,
+neutral, or negative. In simple terms, it learns the patterns in language that
+distinguish a happy customer from a frustrated one.
+
+This model runs as a batch preprocessing step — it classifies all reviews
+in the dataset ahead of time. Each product then gets a precomputed sentiment
+profile (percentage of positive, neutral, and negative reviews, plus total
+review count) that the rest of the pipeline uses.
+
+We train two models and compare them:
+
+  Baseline — TF-IDF + Logistic Regression:
+  A traditional approach. TF-IDF converts review text into numerical features
+  based on word frequency. Logistic Regression uses those features to classify
+  the review. This is fast, interpretable, and gives us a performance floor
+  to beat.
+
+  Main model — DistilBERT (fine-tuned):
+  A compact version of BERT, a deep learning language model pretrained on
+  large amounts of text. We take the pretrained model from Hugging Face,
+  replace its output layer with our 3-class head, and fine-tune it on our
+  review data. This model understands context and word order, which helps
+  with nuanced reviews that TF-IDF misses.
+
+
+5. PRODUCT RANKING LAYER
+
+When the user enters campaign constraints (category, campaign goal, target
+audience), the system needs to recommend which products to promote. This is
+done with algorithmic ranking logic, not a second trained model.
+
+The ranking uses the sentiment profiles from the classifier:
+
+  - If the goal is "highlight strengths," the system ranks products with
+    high positive ratios and high review volume — proven winners backed by
+    lots of evidence.
+
+  - If the goal is "address objections," it surfaces products with high
+    volume but mixed sentiment — products people buy but complain about,
+    where better marketing can reframe the narrative.
+
+  - If the goal is "differentiate," it prioritizes products where positive
+    reviews mention distinctive attributes — unique strengths the model
+    surfaced that competitors lack.
+
+The user sees a ranked list and picks a product to build a campaign around.
+
+
+6. THEME EXTRACTION
+
+After the user selects a product, we go deeper than just "72% positive."
+We ask: what specifically do positive reviewers keep saying?
+
+The method is simple and reproducible:
+  1. Take all reviews for the selected product, grouped by predicted sentiment.
+  2. Run TF-IDF on each group compared to the others.
+     This surfaces the words and phrases that distinguish positive reviews
+     from negative ones.
+  3. The result:
+     - Recurring strengths: terms that appear frequently in positive reviews
+       (e.g., "long-lasting," "gentle on skin")
+     - Recurring complaints: terms from negative reviews
+       (e.g., "broke out," "misleading size")
+     - Friction points: terms from neutral reviews
+       (e.g., "okay for the price," "nothing special")
+  4. For each theme, we pull 2-3 actual review snippets as evidence.
+
+This is not a second trained model. It is a structured analysis step that
+uses the classifier's output to produce actionable marketing insights.
+
+
+7. GEMINI INTEGRATION (AGENTIC LAYER)
+
+The structured insights are passed to Google's Gemini API as a formatted
+input object, alongside the campaign brief from the user.
+
+Gemini receives:
+  - The product's sentiment profile, strengths, complaints, and friction points
+  - The user's chosen campaign goal and target audience
+
+Gemini generates:
+  - A campaign angle: a strategic recommendation for how to position the product
+  - Ad copy: a headline and body text grounded in real review language
+  - A promotional image: generated by Gemini's image capabilities
+
+The key point: without the trained model's output, Gemini writes generic
+copy ("Buy our great product!"). With it, Gemini writes copy that addresses
+specific buyer concerns and highlights what real customers actually value.
+The model decides what to say. Gemini decides how to say it.
+
+The prompt templates used for Gemini are fully documented and disclosed.
+Prompt engineering is treated as a deliberate, reproducible contribution.
+
+
+8. DEMO FLOW
+
+The user interacts with a simple web interface:
+
+  Screen 1 — Campaign Brief:
+  Select a product category, a campaign goal, and a target audience tone.
+  Click "Find Products."
+
+  Screen 2 — Product Recommendations:
+  A ranked list of products suited for the campaign. Each product shows its
+  name, sentiment distribution, review count, top strength, and top complaint.
+  The user selects a product to build a campaign around.
+
+  Screen 3 — Review Intelligence Card:
+  The system shows what it found for the selected product: full sentiment
+  distribution, top strengths, top complaints, friction points, and real
+  review quotes as evidence. The user sees the reasoning before seeing
+  the output.
+
+  Screen 4 — Generated Campaign:
+  Campaign angle, ad headline, body copy, and a promotional image.
+  A short note explains which review insights drove the creative decisions.
+
+
+9. EVALUATION AND ACADEMIC RIGOR
+
+What we evaluate:
+  - Accuracy: overall proportion of correct predictions
+  - Macro F1: average F1 score across all three classes, treating each equally
+  - Per-class F1: separate F1 for positive, neutral, and negative
+  - Confusion matrix: a table showing where the model gets confused
+
+Why the neutral class is interesting:
+  The 3-star / neutral class will be the hardest to classify. People use
+  3 stars to mean very different things — "it's fine," "mixed feelings,"
+  "good product but bad experience." The confusion matrix will show this
+  class bleeding into both positive and negative. The report analyzes why
+  specific reviews are misclassified, with concrete examples.
+
+Ablations and comparisons:
+  - Baseline vs. main model: TF-IDF + Logistic Regression vs. DistilBERT.
+    We quantify exactly how much the deeper model improves performance and
+    whether it changes the downstream themes.
+  - Generic vs. structured Gemini prompting: We compare Gemini's output
+    when given just "write an ad for [product]" versus when given the full
+    structured insight object from our pipeline. This is a qualitative
+    side-by-side that demonstrates the trained model's value in the overall
+    system.
+
+
+10. LIMITATIONS (STATED HONESTLY)
+
+  - Star ratings are noisy labels. A review with mixed sentiment gets a
+    single star rating that may not reflect the text.
+  - Theme extraction uses TF-IDF on grouped reviews. It produces recurring
+    terms, not deep aspect-level understanding. We call the outputs
+    "recurring strengths and complaints," not "emotional triggers."
+  - The product ranking layer is algorithmic, not a trained recommender.
+    It uses the classifier's output effectively but does not learn ranking
+    preferences from data.
+  - The system has no access to business data like sales or conversions.
+    Campaign goals are framed around review signals, not revenue metrics.
+  - Gemini's image generation quality varies. The generated images support
+    the demo but are not production-grade marketing assets.
+
+
+11. FEASIBILITY
+
+  - Dataset is public, pre-labeled, and well-documented.
+  - The baseline model trains in under 2 minutes.
+  - DistilBERT fine-tunes in 20-90 minutes on a free Google Colab GPU.
+  - The full model development process fits into 5-7 working sessions
+    spread across 2-3 weeks.
+  - No paid compute, no proprietary data, no complex infrastructure.
+  - The project is scoped to be completable within course constraints
+    while still demonstrating a full applied AI pipeline from trained
+    model to working demo.
