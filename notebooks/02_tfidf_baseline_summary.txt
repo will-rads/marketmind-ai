@@ -1,0 +1,27 @@
+Notebook 02 — TF-IDF + Logistic Regression Baseline
+
+What it does:
+
+1. Loads the 50K parquet from Drive
+2. Product-aware split using GroupShuffleSplit on parent_asin — 80/20, zero product overlap between train and test, verified with a check
+3. TF-IDF — 50K max features, unigrams + bigrams, sublinear TF scaling
+4. Logistic Regression — class_weight='balanced', max_iter=1000
+5. Evaluation — accuracy, macro F1, per-class report, confusion matrix (raw counts + normalized)
+6. Error analysis — top misclassification patterns with sample reviews from each
+7. Per-category breakdown — accuracy and macro F1 per category with bar chart
+8. Saves model + vectorizer to models/ on Drive
+
+Results:
+
+- Training time: 12.6 seconds
+- Accuracy: 0.8310
+- Macro F1: 0.6107
+- Positive F1: 0.9192 (strong — easy class)
+- Negative F1: 0.6010 (decent — picks up complaint language)
+- Neutral F1: 0.3118 (weak — 3-star class is genuinely ambiguous)
+- Misclassified: 1,775 / 10,505 (16.9%)
+- Top error: 697 positive reviews predicted as neutral (hedged praise)
+- Model saved: models/tfidf_lr_baseline.joblib (1.2 MB)
+- Vectorizer saved: models/tfidf_vectorizer.joblib (2.0 MB)
+
+Next: DistilBERT fine-tuning (Notebook 03) — compare against this baseline.

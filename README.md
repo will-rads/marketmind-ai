@@ -7,7 +7,7 @@ A marketing decision-support platform that transforms public product review data
 **Author:** Will — MS Applied AI, Lebanese American University
 **Deadline:** Beginning of May 2026
 **Repo:** https://github.com/will-rads/marketmind-ai.git
-**Status:** Notebook 01 complete — data acquired, EDA done, building TF-IDF baseline next
+**Status:** Notebook 02 complete — TF-IDF baseline trained (accuracy 0.831, macro F1 0.611). Next: DistilBERT fine-tuning.
 
 ---
 
@@ -237,8 +237,8 @@ This is handled entirely by Gemini's multimodal generation and does not affect t
 
 1. ~~**Download Amazon Reviews 2023** — explore available categories, inspect review quality/volume/label distribution.~~ ✅ Done (Notebook 01)
 2. ~~**Set up Colab notebook** — environment, dependencies, data loading from Google Drive.~~ ✅ Done (Notebook 01)
-3. **Train TF-IDF + LR baseline** — Notebook 02. Validate the 3-class task works, get initial metrics, establish performance floor. Use `class_weight='balanced'` to handle imbalance.
-4. **DistilBERT fine-tuning** — Notebook 03. Fine-tune with weighted loss, compare against baseline.
+3. ~~**Train TF-IDF + LR baseline** — Notebook 02. Validate the 3-class task works, get initial metrics, establish performance floor.~~ ✅ Done (Notebook 02) — accuracy 0.831, macro F1 0.611, neutral F1 0.312.
+4. **DistilBERT fine-tuning** — Notebook 03. Fine-tune with weighted loss, compare against baseline. Target: beat macro F1 0.611, especially on neutral class.
 5. **Test Gemini API** — verify image generation and copy generation quality with a manual structured prompt.
 
 ---
@@ -292,6 +292,7 @@ All substantial changes logged in reverse chronological order. The most recent e
 
 | Date | Entry |
 |------|-------|
+| 2026-03-21 | **Notebook 02 complete — TF-IDF + LR baseline trained and evaluated.** `notebooks/02_tfidf_baseline.ipynb` executed on Colab T4. Product-aware train/test split (GroupShuffleSplit on `parent_asin`, 0 overlap). Train: 39,484 reviews / Test: 10,505 reviews. Results: accuracy **0.831**, macro F1 **0.611**. Per-class F1: positive 0.919, negative 0.601, neutral 0.312. Neutral class weakest as predicted — 3-star ambiguity confirmed. Top error: 697 positive reviews misclassified as neutral (hedged praise). Training time: 12.6s. Model saved to `models/tfidf_lr_baseline.joblib` (1.2 MB). Next: DistilBERT fine-tuning (Notebook 03) — target: beat macro F1 0.61, especially on neutral. |
 | 2026-03-21 | **Notebook 01 complete — data acquired and validated.** `notebooks/01_data_acquisition_eda.ipynb` executed on Colab T4. 49,989 reviews (5K per category × 10 categories, 11 dropped for empty text) saved to `data/raw/reviews_50k.parquet` (9.2 MB). Sampling: top-reviewed products per category. EDA: positive 84.5% (42,253) / negative 9.1% (4,526) / neutral 6.4% (3,210). 4,173 unique products, 1,357 with 10+ reviews covering 64.5% of data. Mean 12.0 reviews/product, max 1,518. Loading fix: direct JSONL via `hf://` paths (resolved `trust_remote_code` deprecation). Added train/test split caution to evaluation plan — product-aware split needed to avoid leakage. Next: TF-IDF + LR baseline (Notebook 02). |
 | 2026-03-21 | **Multi-category dataset + first notebook created.** Dataset now spans 10 broad product categories (equal share from each) instead of single-category. Created `notebooks/01_data_acquisition_eda.ipynb` — streams reviews from HuggingFace, samples 50K (5K per category), collapses star ratings to 3 classes, saves to Google Drive as parquet, runs full EDA. Drive path set to `LAU FINAL PROJECT`. |
 | 2026-03-21 | **Stage 4 refined + target audience defined.** Added meta-prompt architecture to Stage 4 — structured prompt engineered specifically around classifier and theme extractor outputs, not generic templates. Brand context input reworked: no longer post-MVP optional. Now three paths: upload product image + brand guidelines, briefly describe look/feel/tone, or skip entirely. Gemini handles all three gracefully. Updated "Why This Exists" to specify target audience: dropshippers, private label sellers, and small e-commerce brands launching product-based businesses online. Updated Screen 1 in demo to reflect brand input options. Created project proposal document (MarketMind_AI_Proposal.docx). |

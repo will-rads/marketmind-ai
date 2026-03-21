@@ -1,0 +1,22 @@
+Notebook 01 — Data Acquisition & EDA
+
+What it does:
+
+1. Mounts Google Drive and sets up project folder structure (data/raw, data/processed, models)
+2. Streams reviews from 10 broad Amazon product categories via HuggingFace (direct JSONL loading)
+3. Samples 5K reviews per category from the top-reviewed products (not random) — ensures dense review coverage per product
+4. Collapses star ratings into 3-class sentiment labels (positive 4-5, neutral 3, negative 1-2)
+5. Cleans data — drops empty text, adds word count, keeps useful columns
+6. Saves combined dataset to Google Drive as data/raw/reviews_50k.parquet
+7. EDA — label distribution (overall + per-category), review length stats, example reviews per class, product distribution analysis
+
+Results after running:
+
+- 49,989 reviews across 10 categories (11 dropped for empty text)
+- File size: 9.2 MB parquet
+- Label distribution: positive 84.5% (42,253) / negative 9.1% (4,526) / neutral 6.4% (3,210)
+- Imbalance ratio: ~13:1 (positive vs. neutral) — class weighting needed
+- 4,173 unique products, mean 12.0 reviews/product, median 7.0, max 1,518
+- 1,357 products with 10+ reviews, covering 32,247 reviews (64.5% of data)
+
+Next: TF-IDF + Logistic Regression baseline (Notebook 02).

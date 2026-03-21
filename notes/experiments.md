@@ -40,3 +40,44 @@ Each entry should include:
 - Train/test split must be product-aware — many reviews per product means naive random split would leak product-specific language into test set
 
 **Next:** Build TF-IDF + Logistic Regression baseline (Notebook 02). Use `class_weight='balanced'`. Implement product-aware split.
+
+---
+
+### 2026-03-21 — Notebook 02 Executed — TF-IDF + LR Baseline Complete
+
+**What:** Ran `notebooks/02_tfidf_baseline.ipynb` on Colab T4. TF-IDF + Logistic Regression with `class_weight='balanced'`.
+
+**Setup:**
+- Product-aware train/test split via `GroupShuffleSplit` on `parent_asin` — 0 product overlap
+- Train: 39,484 reviews (3,338 products) / Test: 10,505 reviews (835 products)
+- Train/test sentiment distributions nearly identical (~84.7% / ~83.9% positive)
+- TF-IDF: 50K max features, unigrams + bigrams, `sublinear_tf=True`, `min_df=3`, `max_df=0.95`
+- Logistic Regression: `class_weight='balanced'`, `C=1.0`, `solver='lbfgs'`, `max_iter=1000`
+- Training time: 12.6 seconds
+
+**Results:**
+- Accuracy: **0.8310**
+- Macro F1: **0.6107**
+- Positive — precision 0.959, recall 0.882, F1 **0.919**
+- Negative — precision 0.552, recall 0.660, F1 **0.601**
+- Neutral — precision 0.246, recall 0.427, F1 **0.312**
+- Misclassified: 1,775 / 10,505 (16.9%)
+
+**Error analysis:**
+- Top error: 697 positive → neutral (hedged praise, e.g., "it's okay, only 4 stars because...")
+- 341 positive → negative (negative language with positive ratings, e.g., sarcasm, backhanded compliments)
+- 215 negative → neutral (mild complaints without strong negative language)
+- 207 neutral → positive (3-star reviews with mostly positive text but one caveat)
+- Neutral class is the weakest — F1 0.31, precision only 0.25. Confirms 3-star ambiguity hypothesis.
+
+**Saved:**
+- Model: `models/tfidf_lr_baseline.joblib` (1.2 MB)
+- Vectorizer: `models/tfidf_vectorizer.joblib` (2.0 MB)
+
+**Key takeaways:**
+- Baseline is solid — 83% accuracy with honest product-aware split and class weighting
+- Positive class is effectively solved at this level (F1 0.92)
+- Neutral class is where DistilBERT needs to improve — the model struggles with hedged, mixed, or ambiguous language that TF-IDF can't capture contextually
+- The error patterns are exactly what we predicted and will make strong analysis content in the report
+
+**Next:** DistilBERT fine-tuning (Notebook 03). Target: beat macro F1 0.61, especially on neutral class.
