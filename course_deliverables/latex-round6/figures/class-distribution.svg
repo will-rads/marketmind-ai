@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" width="100%" height="auto"
+     font-family="sans-serif" role="img" aria-label="Class distribution bar chart">
+
+  <!-- Positive -->
+  <text x="70" y="38" text-anchor="end" font-size="13" font-weight="600" fill="#2B2B2B">Positive</text>
+  <rect x="80" y="22" width="340" height="24" rx="3" fill="#1F9D55"/>
+  <text x="428" y="39" font-size="12" fill="#454545">42,253 (84.5%)</text>
+
+  <!-- Negative -->
+  <text x="70" y="82" text-anchor="end" font-size="13" font-weight="600" fill="#2B2B2B">Negative</text>
+  <rect x="80" y="66" width="36" height="24" rx="3" fill="#D9342B"/>
+  <text x="124" y="83" font-size="12" fill="#454545">4,526 (9.1%)</text>
+
+  <!-- Neutral -->
+  <text x="70" y="126" text-anchor="end" font-size="13" font-weight="600" fill="#2B2B2B">Neutral</text>
+  <rect x="80" y="110" width="26" height="24" rx="3" fill="#F2C014"/>
+  <text x="114" y="127" font-size="12" fill="#454545">3,210 (6.4%)</text>
+
+</svg>

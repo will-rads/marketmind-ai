@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 185" width="100%" height="auto"
+     role="img" aria-label="Validation accuracy and macro F1 across three epochs">
+  <!-- grid -->
+  <line x1="50" y1="20" x2="50" y2="140" stroke="#D9D9D9" stroke-width="1"/>
+  <line x1="50" y1="140" x2="580" y2="140" stroke="#D9D9D9" stroke-width="1"/>
+  <!-- y axis labels -->
+  <text x="42" y="28" text-anchor="end" font-family="monospace" font-size="9" fill="#6F6F6F">0.90</text>
+  <text x="42" y="64" text-anchor="end" font-family="monospace" font-size="9" fill="#6F6F6F">0.80</text>
+  <text x="42" y="100" text-anchor="end" font-family="monospace" font-size="9" fill="#6F6F6F">0.70</text>
+  <text x="42" y="138" text-anchor="end" font-family="monospace" font-size="9" fill="#6F6F6F">0.60</text>
+  <!-- x axis labels -->
+  <text x="135" y="155" text-anchor="middle" font-family="monospace" font-size="9" fill="#6F6F6F">Epoch 1</text>
+  <text x="315" y="155" text-anchor="middle" font-family="monospace" font-size="9" fill="#6F6F6F">Epoch 2</text>
+  <text x="495" y="155" text-anchor="middle" font-family="monospace" font-size="9" fill="#6F6F6F">Epoch 3</text>
+  <!-- accuracy line: 0.846, 0.876, 0.868 -->
+  <polyline fill="none" stroke="#2850FF" stroke-width="2" points="135,41.6 315,29.6 495,32.8"/>
+  <circle cx="135" cy="41.6" r="3.5" fill="#2850FF"/>
+  <circle cx="315" cy="29.6" r="3.5" fill="#2850FF"/>
+  <circle cx="495" cy="32.8" r="3.5" fill="#2850FF"/>
+  <!-- macro F1 line: 0.650, 0.672, 0.668 -->
+  <polyline fill="none" stroke="#A06A12" stroke-width="2" stroke-dasharray="5 4" points="135,120 315,111.2 495,112.8"/>
+  <circle cx="135" cy="120" r="3.5" fill="#A06A12"/>
+  <circle cx="315" cy="111.2" r="3.5" fill="#A06A12"/>
+  <circle cx="495" cy="112.8" r="3.5" fill="#A06A12"/>
+  <!-- annotation: best epoch -->
+  <line x1="315" y1="14" x2="315" y2="140" stroke="#2850FF" stroke-width="0.5" stroke-dasharray="2 3" opacity="0.5"/>
+  <text x="320" y="14" font-family="monospace" font-size="9" fill="#1A39C4">best epoch</text>
+  <!-- value labels -->
+  <text x="135" y="36" text-anchor="middle" font-family="monospace" font-size="9" fill="#2850FF">0.846</text>
+  <text x="315" y="24" text-anchor="middle" font-family="monospace" font-size="9" fill="#2850FF">0.876</text>
+  <text x="495" y="27" text-anchor="middle" font-family="monospace" font-size="9" fill="#2850FF">0.868</text>
+  <text x="135" y="115" text-anchor="middle" font-family="monospace" font-size="9" fill="#A06A12">0.650</text>
+  <text x="315" y="106" text-anchor="middle" font-family="monospace" font-size="9" fill="#A06A12">0.672</text>
+  <text x="495" y="107" text-anchor="middle" font-family="monospace" font-size="9" fill="#A06A12">0.668</text>
+  <!-- legend (bottom, matches HTML version) -->
+  <line x1="183" y1="175" x2="198" y2="175" stroke="#2850FF" stroke-width="2"/>
+  <text x="203" y="178" font-family="monospace" font-size="9" fill="#454545">Validation accuracy</text>
+  <line x1="317" y1="175" x2="332" y2="175" stroke="#A06A12" stroke-width="2" stroke-dasharray="3 2"/>
+  <text x="337" y="178" font-family="monospace" font-size="9" fill="#454545">Validation macro F1</text>
+</svg>

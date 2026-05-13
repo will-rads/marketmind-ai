@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 130" width="100%" height="auto"
+     font-family="sans-serif" role="img" aria-label="Application workflow five-step flow diagram">
+
+  <defs>
+    <marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6F6F6F"/>
+    </marker>
+  </defs>
+
+  <!-- Step 1: Landing -->
+  <rect x="10" y="10" width="140" height="110" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <rect x="10" y="10" width="140" height="28" rx="6" fill="#2B2B2B"/>
+  <rect x="10" y="24" width="140" height="14" fill="#2B2B2B"/>
+  <text x="80" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">1. Landing</text>
+  <text x="80" y="64" text-anchor="middle" font-size="10.5" fill="#454545">Sign in with</text>
+  <text x="80" y="78" text-anchor="middle" font-size="10.5" fill="#454545">email session</text>
+
+  <!-- Arrow 1-2 -->
+  <line x1="150" y1="65" x2="170" y2="65" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#flow-arrow)"/>
+
+  <!-- Step 2: Brief -->
+  <rect x="170" y="10" width="140" height="110" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <rect x="170" y="10" width="140" height="28" rx="6" fill="#2B2B2B"/>
+  <rect x="170" y="24" width="140" height="14" fill="#2B2B2B"/>
+  <text x="240" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">2. Brief</text>
+  <text x="240" y="64" text-anchor="middle" font-size="10.5" fill="#454545">Six guided</text>
+  <text x="240" y="78" text-anchor="middle" font-size="10.5" fill="#454545">steps</text>
+
+  <!-- Arrow 2-3 -->
+  <line x1="310" y1="65" x2="330" y2="65" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#flow-arrow)"/>
+
+  <!-- Step 3: Product Intelligence -->
+  <rect x="330" y="10" width="140" height="110" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <rect x="330" y="10" width="140" height="28" rx="6" fill="#2B2B2B"/>
+  <rect x="330" y="24" width="140" height="14" fill="#2B2B2B"/>
+  <text x="400" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">3. Intelligence</text>
+  <text x="400" y="64" text-anchor="middle" font-size="10.5" fill="#454545">Ranked review</text>
+  <text x="400" y="78" text-anchor="middle" font-size="10.5" fill="#454545">sources</text>
+
+  <!-- Arrow 3-4 -->
+  <line x1="470" y1="65" x2="490" y2="65" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#flow-arrow)"/>
+
+  <!-- Step 4: Campaign Output -->
+  <rect x="490" y="10" width="140" height="110" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <rect x="490" y="10" width="140" height="28" rx="6" fill="#2B2B2B"/>
+  <rect x="490" y="24" width="140" height="14" fill="#2B2B2B"/>
+  <text x="560" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">4. Campaign</text>
+  <text x="560" y="64" text-anchor="middle" font-size="10.5" fill="#454545">Three-stage</text>
+  <text x="560" y="78" text-anchor="middle" font-size="10.5" fill="#454545">campaign</text>
+
+  <!-- Arrow 4-5 -->
+  <line x1="630" y1="65" x2="650" y2="65" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#flow-arrow)"/>
+
+  <!-- Step 5: Dashboard -->
+  <rect x="650" y="10" width="140" height="110" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <rect x="650" y="10" width="140" height="28" rx="6" fill="#2B2B2B"/>
+  <rect x="650" y="24" width="140" height="14" fill="#2B2B2B"/>
+  <text x="720" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">5. Dashboard</text>
+  <text x="720" y="64" text-anchor="middle" font-size="10.5" fill="#454545">Saved campaigns,</text>
+  <text x="720" y="78" text-anchor="middle" font-size="10.5" fill="#454545">export</text>
+
+</svg>

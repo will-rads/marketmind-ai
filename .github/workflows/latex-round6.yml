@@ -1,0 +1,32 @@
+name: Compile LaTeX Round 6
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "course_deliverables/latex-round6/**"
+      - ".github/workflows/latex-round6.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: course_deliverables/latex-round6
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: course_deliverables/latex-round6
+          root_file: main.tex
+          args: -pdf -interaction=nonstopmode -file-line-error -halt-on-error
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: MarketMind_LaTeX_round6
+          path: course_deliverables/latex-round6/main.pdf

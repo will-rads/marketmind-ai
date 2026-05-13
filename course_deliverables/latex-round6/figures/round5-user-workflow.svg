@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 280" width="100%" height="auto"
+     font-family="sans-serif"
+     role="img" aria-label="MarketMind user-facing workflow">
+
+  <defs>
+    <marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6F6F6F"/>
+    </marker>
+    <marker id="arrow-graphite" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2B2B2B"/>
+    </marker>
+  </defs>
+
+  <!-- Lane background -->
+  <rect x="0" y="20" width="1100" height="240" fill="#FAFAFA" stroke="#E5E5E5" stroke-width="1"/>
+
+  <!-- Lane labels -->
+  <text x="14" y="42" font-size="10" fill="#6F6F6F" letter-spacing="1.5">USER-FACING WORKFLOW</text>
+  <text x="14" y="56" font-size="9.5" fill="#6F6F6F" font-style="italic">end-to-end campaign journey on the web application</text>
+
+  <!-- Section bracket: OPTIONAL -->
+  <text x="180" y="86" text-anchor="middle" font-size="9.5" fill="#9A9A9A" letter-spacing="1.2">OPTIONAL — STARTING FROM SCRATCH</text>
+  <line x1="40" y1="92" x2="320" y2="92" stroke="#CCCCCC" stroke-width="0.8"/>
+
+  <!-- Section bracket: REQUIRED -->
+  <text x="700" y="86" text-anchor="middle" font-size="9.5" fill="#9A9A9A" letter-spacing="1.2">REQUIRED — CORE FLOW</text>
+  <line x1="340" y1="92" x2="1060" y2="92" stroke="#CCCCCC" stroke-width="0.8"/>
+
+  <!-- Box 1: Create logo -->
+  <rect x="40" y="110" width="135" height="90" rx="6" fill="#FFFFFF" stroke="#6F6F6F" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <text x="107.5" y="138" text-anchor="middle" font-size="11" font-weight="600" fill="#161616">Create logo</text>
+  <text x="107.5" y="158" text-anchor="middle" font-size="9.5" fill="#454545">flat 2D mark on</text>
+  <text x="107.5" y="172" text-anchor="middle" font-size="9.5" fill="#454545">white background</text>
+  <text x="107.5" y="190" text-anchor="middle" font-size="9" fill="#9A9A9A" font-style="italic">optional</text>
+
+  <line x1="175" y1="155" x2="200" y2="155" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#arrow-grey)"/>
+
+  <!-- Box 2: Concept product -->
+  <rect x="200" y="110" width="135" height="90" rx="6" fill="#FFFFFF" stroke="#6F6F6F" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <text x="267.5" y="138" text-anchor="middle" font-size="11" font-weight="600" fill="#161616">Concept product</text>
+  <text x="267.5" y="158" text-anchor="middle" font-size="9.5" fill="#454545">square render</text>
+  <text x="267.5" y="172" text-anchor="middle" font-size="9.5" fill="#454545">from a description</text>
+  <text x="267.5" y="190" text-anchor="middle" font-size="9" fill="#9A9A9A" font-style="italic">optional</text>
+
+  <line x1="335" y1="155" x2="365" y2="155" stroke="#2B2B2B" stroke-width="1.4" marker-end="url(#arrow-graphite)"/>
+
+  <!-- Box 3: Brief -->
+  <rect x="365" y="110" width="135" height="90" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="432.5" y="138" text-anchor="middle" font-size="11" font-weight="600" fill="#161616">Enter brief</text>
+  <text x="432.5" y="158" text-anchor="middle" font-size="9.5" fill="#454545">six gated</text>
+  <text x="432.5" y="172" text-anchor="middle" font-size="9.5" fill="#454545">questions</text>
+
+  <line x1="500" y1="155" x2="530" y2="155" stroke="#2B2B2B" stroke-width="1.4" marker-end="url(#arrow-graphite)"/>
+
+  <!-- Box 4: Pick review intelligence -->
+  <rect x="530" y="110" width="135" height="90" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="597.5" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#161616">Pick review</text>
+  <text x="597.5" y="149" text-anchor="middle" font-size="11" font-weight="600" fill="#161616">intelligence</text>
+  <text x="597.5" y="168" text-anchor="middle" font-size="9.5" fill="#454545">ranked source</text>
+  <text x="597.5" y="182" text-anchor="middle" font-size="9.5" fill="#454545">product shortlist</text>
+
+  <line x1="665" y1="155" x2="695" y2="155" stroke="#2B2B2B" stroke-width="1.4" marker-end="url(#arrow-graphite)"/>
+
+  <!-- Box 5: Generate campaign -->
+  <rect x="695" y="110" width="135" height="90" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="762.5" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#161616">Generate</text>
+  <text x="762.5" y="149" text-anchor="middle" font-size="11" font-weight="600" fill="#161616">campaign</text>
+  <text x="762.5" y="168" text-anchor="middle" font-size="9.5" fill="#454545">three funnel stages,</text>
+  <text x="762.5" y="182" text-anchor="middle" font-size="9.5" fill="#454545">copy + visuals</text>
+
+  <line x1="830" y1="155" x2="860" y2="155" stroke="#2B2B2B" stroke-width="1.4" marker-end="url(#arrow-graphite)"/>
+
+  <!-- Box 6: Audit / Export / Dashboard -->
+  <rect x="860" y="110" width="200" height="90" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="960" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#161616">Audit · Export · Dashboard</text>
+  <text x="960" y="156" text-anchor="middle" font-size="9.5" fill="#454545">evidence drawer,</text>
+  <text x="960" y="170" text-anchor="middle" font-size="9.5" fill="#454545">PDF download, email,</text>
+  <text x="960" y="184" text-anchor="middle" font-size="9.5" fill="#454545">campaigns dashboard</text>
+
+  <!-- Footer caption -->
+  <text x="550" y="240" text-anchor="middle" font-size="10" fill="#6F6F6F" font-style="italic">Dashed boxes mark optional starting stages for sellers without prior brand assets.</text>
+</svg>

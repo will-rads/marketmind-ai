@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 560" width="100%" height="auto"
+     font-family="sans-serif"
+     role="img" aria-label="MarketMind system architecture">
+
+  <defs>
+    <marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6F6F6F"/>
+    </marker>
+    <marker id="arrow-graphite" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2B2B2B"/>
+    </marker>
+  </defs>
+
+  <!-- Lane backgrounds -->
+  <rect x="0" y="20" width="760" height="240" fill="#FAFAFA" stroke="#E5E5E5" stroke-width="1"/>
+  <rect x="0" y="280" width="760" height="260" fill="#FAFAFA" stroke="#E5E5E5" stroke-width="1"/>
+
+  <!-- Lane labels -->
+  <text x="14" y="42" font-size="10" fill="#6F6F6F" letter-spacing="1.5">OFFLINE / BATCH</text>
+  <text x="14" y="56" font-size="9.5" fill="#6F6F6F" font-style="italic">produced once</text>
+
+  <text x="14" y="302" font-size="10" fill="#6F6F6F" letter-spacing="1.5">ONLINE / RUNTIME</text>
+  <text x="14" y="316" font-size="9.5" fill="#6F6F6F" font-style="italic">runs per user session</text>
+
+  <!-- TOP LANE -->
+  <!-- Box A: Amazon Reviews -->
+  <rect x="40" y="80" width="180" height="80" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="130" y="110" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">Amazon Reviews 2023</text>
+  <text x="130" y="130" text-anchor="middle" font-size="11" fill="#454545">49,989 reviews</text>
+  <text x="130" y="146" text-anchor="middle" font-size="11" fill="#454545">10 product categories</text>
+
+  <line x1="220" y1="120" x2="290" y2="120" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#arrow-grey)"/>
+
+  <!-- Box B: Sentiment Classification -->
+  <rect x="290" y="80" width="180" height="80" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="380" y="110" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">Sentiment Classification</text>
+  <text x="380" y="130" text-anchor="middle" font-size="11" fill="#454545">DistilBERT (main)</text>
+  <text x="380" y="146" text-anchor="middle" font-size="11" fill="#454545">TF-IDF + LR (baseline)</text>
+
+  <line x1="470" y1="120" x2="540" y2="120" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#arrow-grey)"/>
+
+  <!-- Box C: Review-Intelligence Build -->
+  <rect x="540" y="80" width="180" height="80" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="630" y="106" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">Review-Intelligence</text>
+  <text x="630" y="122" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">Build</text>
+  <text x="630" y="140" text-anchor="middle" font-size="11" fill="#454545">per-product profiles</text>
+  <text x="630" y="154" text-anchor="middle" font-size="11" fill="#454545">+ curated review excerpts</text>
+
+  <!-- Arrow from Box C down to artifact -->
+  <line x1="630" y1="160" x2="630" y2="190" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#arrow-grey)"/>
+
+  <!-- Artifact callout (graphite accent instead of cobalt) -->
+  <rect x="525" y="190" width="210" height="50" rx="6" fill="#F5F5F5" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="630" y="210" text-anchor="middle" font-family="'JetBrains Mono','Consolas',monospace" font-size="12" fill="#161616">product_intelligence.json</text>
+  <text x="630" y="226" text-anchor="middle" font-size="10.5" fill="#454545">profiles, excerpts, ranking inputs</text>
+
+  <!-- Boundary divider -->
+  <line x1="0" y1="270" x2="760" y2="270" stroke="#B5B5B5" stroke-width="1" stroke-dasharray="6 5"/>
+
+  <!-- Cross-boundary graphite arrows (was cobalt) -->
+  <path d="M 580 240 C 580 290, 350 300, 315 338" fill="none" stroke="#2B2B2B" stroke-width="1.4" marker-end="url(#arrow-graphite)"/>
+  <path d="M 680 240 C 680 290, 540 300, 520 338" fill="none" stroke="#2B2B2B" stroke-width="1.4" marker-end="url(#arrow-graphite)"/>
+
+  <!-- BOTTOM LANE -->
+  <!-- Box D: User Inputs -->
+  <rect x="40" y="340" width="160" height="80" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="120" y="370" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">User Inputs</text>
+  <text x="120" y="388" text-anchor="middle" font-size="11" fill="#454545">brief, goal, audience,</text>
+  <text x="120" y="404" text-anchor="middle" font-size="11" fill="#454545">brand assets, promo</text>
+
+  <line x1="200" y1="380" x2="230" y2="380" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#arrow-grey)"/>
+
+  <!-- Box E: Goal-Aware Ranking -->
+  <rect x="230" y="340" width="170" height="80" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="315" y="364" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">Goal-Aware Ranking</text>
+  <text x="315" y="378" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">+ Source Product</text>
+  <text x="315" y="396" text-anchor="middle" font-size="10.5" fill="#454545">strengths, objections,</text>
+  <text x="315" y="410" text-anchor="middle" font-size="10.5" fill="#454545">differentiate</text>
+
+  <line x1="400" y1="380" x2="430" y2="380" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#arrow-grey)"/>
+
+  <!-- Box F: Structured Prompt Builder -->
+  <rect x="430" y="340" width="180" height="80" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="520" y="364" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">Structured Prompt</text>
+  <text x="520" y="378" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">Builder</text>
+  <text x="520" y="396" text-anchor="middle" font-size="11" fill="#454545">brief + brand + excerpts</text>
+  <text x="520" y="410" text-anchor="middle" font-size="11" fill="#454545">+ fixed output schema</text>
+
+  <line x1="610" y1="380" x2="640" y2="380" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#arrow-grey)"/>
+
+  <!-- Box G: Generation -->
+  <rect x="640" y="340" width="100" height="80" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="690" y="364" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">Generation</text>
+  <text x="690" y="384" text-anchor="middle" font-size="10.5" fill="#454545">Gemini text</text>
+  <text x="690" y="398" text-anchor="middle" font-size="10.5" fill="#454545">Nano Banana Pro</text>
+  <text x="690" y="412" text-anchor="middle" font-size="10.5" fill="#454545">Veo 3.1 Fast</text>
+
+  <!-- Arrow G down to output strip -->
+  <line x1="690" y1="420" x2="690" y2="450" stroke="#6F6F6F" stroke-width="1.2" marker-end="url(#arrow-grey)"/>
+
+  <!-- Output strip -->
+  <rect x="40" y="450" width="700" height="60" rx="6" fill="#FFFFFF" stroke="#2B2B2B" stroke-width="1.4"/>
+  <text x="390" y="475" text-anchor="middle" font-size="13" font-weight="600" fill="#161616">Campaign Output + Delivery</text>
+  <text x="390" y="494" text-anchor="middle" font-size="11" fill="#454545">copy surfaces, 9:16 video, 4:5 portrait statics, dashboard, PDF export, email</text>
+
+</svg>

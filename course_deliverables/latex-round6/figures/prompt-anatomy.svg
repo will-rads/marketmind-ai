@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 340" width="100%" height="auto"
+     font-family="sans-serif" role="img" aria-label="Prompt anatomy block diagram">
+
+  <defs>
+    <linearGradient id="row-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FAFAFA"/>
+      <stop offset="100%" stop-color="#F5F5F5"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Block 1: ROLE AND TASK -->
+  <rect x="10" y="10" width="540" height="34" rx="4" fill="url(#row-bg)" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="24" y="32" font-size="9" font-weight="700" fill="#8C8C8C" letter-spacing="1.2">ROLE AND TASK</text>
+  <text x="170" y="32" font-size="12" fill="#2B2B2B">System identity and high-level objective</text>
+
+  <!-- Block 2: IDENTITY GUARDRAIL -->
+  <rect x="10" y="52" width="540" height="34" rx="4" fill="url(#row-bg)" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="24" y="74" font-size="9" font-weight="700" fill="#8C8C8C" letter-spacing="1.2">IDENTITY GUARDRAIL</text>
+  <text x="170" y="74" font-size="12" fill="#2B2B2B">Stay in character; refuse off-topic requests</text>
+
+  <!-- Block 3: REVIEW EVIDENCE -->
+  <rect x="10" y="94" width="540" height="34" rx="4" fill="url(#row-bg)" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="24" y="116" font-size="9" font-weight="700" fill="#8C8C8C" letter-spacing="1.2">REVIEW EVIDENCE</text>
+  <text x="170" y="116" font-size="12" fill="#2B2B2B">Top-ranked review excerpts from classifier</text>
+
+  <!-- Block 4: USER BRIEF -->
+  <rect x="10" y="136" width="540" height="34" rx="4" fill="url(#row-bg)" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="24" y="158" font-size="9" font-weight="700" fill="#8C8C8C" letter-spacing="1.2">USER BRIEF</text>
+  <text x="170" y="158" font-size="12" fill="#2B2B2B">Goal, audience, product, and promo details</text>
+
+  <!-- Block 5: BRAND ASSETS -->
+  <rect x="10" y="178" width="540" height="34" rx="4" fill="url(#row-bg)" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="24" y="200" font-size="9" font-weight="700" fill="#8C8C8C" letter-spacing="1.2">BRAND ASSETS</text>
+  <text x="170" y="200" font-size="12" fill="#2B2B2B">Logo URL, color palette, voice guidelines</text>
+
+  <!-- Block 6: COPY CONTRACT -->
+  <rect x="10" y="220" width="540" height="34" rx="4" fill="url(#row-bg)" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="24" y="242" font-size="9" font-weight="700" fill="#8C8C8C" letter-spacing="1.2">COPY CONTRACT</text>
+  <text x="170" y="242" font-size="12" fill="#2B2B2B">Per-stage text rules: length, tone, CTA format</text>
+
+  <!-- Block 7: MEDIA CONTRACT -->
+  <rect x="10" y="262" width="540" height="34" rx="4" fill="url(#row-bg)" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="24" y="284" font-size="9" font-weight="700" fill="#8C8C8C" letter-spacing="1.2">MEDIA CONTRACT</text>
+  <text x="170" y="284" font-size="12" fill="#2B2B2B">Aspect ratios, resolution, video duration limits</text>
+
+  <!-- Block 8: OUTPUT SCHEMA -->
+  <rect x="10" y="304" width="540" height="34" rx="4" fill="url(#row-bg)" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="24" y="326" font-size="9" font-weight="700" fill="#8C8C8C" letter-spacing="1.2">OUTPUT SCHEMA</text>
+  <text x="170" y="326" font-size="12" fill="#2B2B2B">Enforced JSON structure for deterministic parsing</text>
+
+</svg>
