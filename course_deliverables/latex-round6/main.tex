@@ -41,6 +41,12 @@
 % --Cross-references and links --
 \usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
+% Always render figure/table references with the capitalised full word, so
+% \cref and \Cref read identically regardless of sentence position.
+\crefname{figure}{Figure}{Figures}
+\Crefname{figure}{Figure}{Figures}
+\crefname{table}{Table}{Tables}
+\Crefname{table}{Table}{Tables}
 
 % --Misc --
 \usepackage{enumitem}
@@ -51,7 +57,6 @@
 \usepackage{etoolbox}          % patch chapter to remove forced page breaks
 \usepackage{needspace}         % keep headings and nearby content together
 \usepackage{seqsplit}          % allow long route names to break in narrow table cells
-\usepackage{wrapfig}           % side-wrapped figures for tall portrait shots
 
 % Stop \chapter from inserting a \clearpage so content flows continuously
 \makeatletter
@@ -256,7 +261,7 @@ The project pursues seven high-level goals, written as outcomes rather than as c
 \section{Contributions of the thesis}
 \label{sec:contributions}
 
-The main contribution of this thesis is MarketMind: a review-intelligence platform that turns the customer voice on product pages into a complete Meta-style advertising campaign for small online sellers. The platform is the contribution at the level the project should be judged. The pieces inside it (the classifier, the curated review evidence, the goal-aware ranking layer, the structured prompt, the visual production wrapper, and the in-app evidence drawer) are component-level contributions that make the platform work; none of them, taken in isolation, is the contribution. \Cref{ch:approach} describes how the components are wired together.
+The main contribution of this thesis is MarketMind: a review-intelligence platform that turns the customer voice on product pages into a complete Meta-style advertising campaign for small online sellers. MarketMind streamlines the whole campaign workflow inside one platform, rather than leaving a small seller to stitch together separate tools for review analysis, copywriting, and design. It comprises six working pieces: a trained sentiment classifier, a layer of curated review evidence, a goal-aware ranking layer, a structured generation prompt, a visual production wrapper, and an in-app evidence drawer. Each piece handles one part of the job, and the platform is what links them into a single path from a short brief to a finished campaign. \Cref{ch:approach} describes how the components are wired together.
 
 The platform delivers eight system-level contributions, listed below. Each is written at the system level. The pieces inside each one are named only where naming them makes the contribution concrete.
 
@@ -609,15 +614,14 @@ The user can refine any individual block without retriggering the whole stage. R
 \subsubsection{Meta Ads implementation mapping}
 \label{sec:metamapping}
 
-\begin{wrapfigure}{r}{0.42\textwidth}
+\begin{figure}[htbp]
   \centering
-  \vspace{-0.4em}
-  \includegraphics[width=0.4\textwidth]{fig-meta-block-mm}
+  \includegraphics[width=0.5\textwidth]{fig-meta-block-mm}
   \caption{One creative block as MarketMind renders it. The structured fields the user later pastes into Meta Ads Manager sit alongside the creative itself: campaign objective, audience description with age range and detailed-targeting interests, daily budget for the stage, messaging angle, and the on-image copy and paste-into-Meta caption.}
   \label{fig:metablock}
-\end{wrapfigure}
+\end{figure}
 
-MarketMind does not connect to Meta and does not launch ads through any Meta API. The platform outputs every field a seller needs to launch the campaign manually, in the same shape Meta asks for during the Ads Manager wizard. A user who runs their own ads on Meta faces a fixed set of fields at campaign-, ad-set-, and ad-level: a campaign objective, an audience description, an age range, a list of detailed-targeting interests, a daily budget, and a creative file with its caption and its headline. MarketMind renders every one of those values inside each creative block. \Cref{fig:metablock} on the right shows one such block. The user opens Meta Ads Manager, walks the funnel-stage wizard, and pastes the values from the report into the matching fields. \Cref{fig:metablock-meta} shows the four Meta surfaces a user would step through to launch the same campaign: the Engagement campaign objective at campaign level, the daily-budget setting at ad-set level, the audience and detailed-targeting page at ad-set level, and the ad-level surface with the uploaded creative and the caption and headline in place.
+MarketMind does not connect to Meta and does not launch ads through any Meta API. The platform outputs every field a seller needs to launch the campaign manually, in the same shape Meta asks for during the Ads Manager wizard. A user who runs their own ads on Meta faces a fixed set of fields at campaign-, ad-set-, and ad-level: a campaign objective, an audience description, an age range, a list of detailed-targeting interests, a daily budget, and a creative file with its caption and its headline. MarketMind renders every one of those values inside each creative block. \Cref{fig:metablock} shows one such block. The user opens Meta Ads Manager, walks the funnel-stage wizard, and pastes the values from the report into the matching fields. \Cref{fig:metablock-meta} shows the four Meta surfaces a user would step through to launch the same campaign: the Engagement campaign objective at campaign level, the daily-budget setting at ad-set level, the audience and detailed-targeting page at ad-set level, and the ad-level surface with the uploaded creative and the caption and headline in place.
 
 The Meta-style framing used throughout this report refers to the structural alignment of the output with the fields Meta asks for during the wizard flow, not to any integration with Meta's advertising platform. The seller copies each value from the report into Meta Ads Manager by hand, the same way they would copy a brief from a slide deck.
 
