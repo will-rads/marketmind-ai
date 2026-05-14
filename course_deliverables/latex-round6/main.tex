@@ -61,9 +61,22 @@
 % Avoid orphaned section headings and keep floats from starting at a page bottom.
 \pretocmd{\section}{\Needspace{8\baselineskip}}{}{}
 \pretocmd{\subsection}{\Needspace{5\baselineskip}}{}{}
+\pretocmd{\subsubsection}{\Needspace{6\baselineskip}}{}{}
 \AtBeginEnvironment{figure}{\Needspace{12\baselineskip}}
 \AtBeginEnvironment{table}{\Needspace{10\baselineskip}}
 \AtBeginEnvironment{longtable}{\Needspace{10\baselineskip}}
+
+% --Page-break hygiene: no widows, no orphans, no stranded last lines --
+% Stops a single line (or the last sentence of a section) from being pushed
+% alone onto the next page, and forbids a page break right after a hyphen.
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+\brokenpenalty=10000
+% Let page bottoms run slightly short instead of stretching glue to fill them;
+% this is what lets the high penalties above resolve into clean pages rather
+% than "Underfull vbox" warnings.
+\raggedbottom
 
 % --Title data --
 \newcommand{\reporttitle}{MarketMind}
