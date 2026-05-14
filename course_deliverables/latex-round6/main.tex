@@ -165,7 +165,7 @@ This thesis presents MarketMind, a review-intelligence platform that turns class
 
 The platform has two halves connected by a single offline artifact. Offline, a DistilBERT classifier is fine-tuned on a product-aware split of 49,989 Amazon reviews across ten product categories; the trained model runs in batch to produce per-product sentiment profiles, curated review excerpts, and the inputs that a goal-aware product-ranking layer needs at runtime. Online, those inputs flow into a structured per-stage prompt that combines the user brief, brand assets, and curated review evidence, and the platform generates a three-stage Meta-style campaign through Gemini 3.1 Pro for copy and structured planning, Nano Banana Pro for portrait static images, and Veo 3.1 Fast for short video. The user-facing surface is a Next.js web application with an in-app evidence drawer that links every generated block back to the review excerpts that grounded it.
 
-The fine-tuned DistilBERT classifier reached accuracy 0.872 and macro F1 0.673 against a TF-IDF and Logistic Regression baseline at 0.831 and 0.611, with the largest per-class gain on the underrepresented negative class. Qualitative ablations across four products in four categories, judged against criteria taken from Meta's published creative best practices, showed that the structured review-grounded prompt produced more specific copy, cleaner visual composition, and tighter on-image text discipline than a generic prompt run against the same model. A per-campaign cost check on Google's published Gemini list prices put the API spend at roughly \$4.13 per complete campaign, two orders of magnitude below the cheapest published GCC agency retainer for a comparable creative volume. Future work covers a multi-rater evaluation across more product categories, paid Meta ad-spend testing, and brand-style fine-tuning for the visual generators.
+The fine-tuned DistilBERT classifier reached accuracy 0.872 and macro F1 0.673 against a TF-IDF and Logistic Regression baseline at 0.831 and 0.611, with the largest per-class gain on the underrepresented negative class. Qualitative ablations, one full campaign example and three further image-only examples across four product categories, judged against criteria taken from Meta's published creative best practices, showed that the structured review-grounded prompt produced more specific copy, cleaner visual composition, and tighter on-image text discipline than a generic prompt run against the same model. A per-campaign cost check on Google's published Gemini list prices put the API spend at roughly \$4.13 per complete campaign, two orders of magnitude below the cheapest published GCC agency retainer for a comparable creative volume. Future work covers a multi-rater evaluation across more product categories, paid Meta ad-spend testing, and brand-style fine-tuning for the visual generators.
 
 \vspace{0.5cm}
 \noindent\textbf{Keywords:} Review intelligence; sentiment analysis; DistilBERT; grounded language model generation; marketing automation.
@@ -195,7 +195,7 @@ The fine-tuned DistilBERT classifier reached accuracy 0.872 and macro F1 0.673 a
 \label{ch:introduction}
 % --------------------------------------------------------------
 
-The main contribution of this thesis is MarketMind, a review-intelligence platform that turns the customer voice already present on product pages into a complete Meta-style advertising campaign for small online sellers. The platform is built for the case where the seller has thousands of reviews on similar products and lacks the time or the team to turn that evidence into a launchable campaign. It produces the deliverables a real campaign needs (a logo where one is missing, a short video, several portrait static images with on-image copy, paste-into-Meta captions, an audience profile, a funnel structure, and a budget split across the funnel) from a short user brief. The remainder of this chapter places the problem in context, names the parts of the gap that MarketMind closes, sets the project objectives, names the system-level contributions of the platform, and walks through the rest of the report.
+The main contribution of this thesis is MarketMind, a functional online web application that turns the customer voice already present on product pages into a complete Meta-style advertising campaign for small online sellers. It is delivered as a working platform rather than a study artifact: the seller opens the app and leaves with a finished campaign. The platform is built for the case where the seller has thousands of reviews on similar products and lacks the time or the team to turn that evidence into a launchable campaign. Inside the app the seller can generate a logo and a concept-product image, complete a six-step brief, read a review-intelligence screen that profiles their products, and receive a final campaign with Meta-style copy, generated visuals, an evidence drawer linking each block to its source reviews, and PDF, email, and dashboard delivery. The remainder of this chapter places the problem in context, names the parts of the gap that MarketMind closes, sets the project objectives, names the system-level contributions of the platform, and walks through the rest of the report.
 
 \section{Domain and motivation}
 \label{sec:domain}
@@ -254,7 +254,7 @@ The platform delivers eight system-level contributions, listed below. Each is wr
   \item \textbf{C4.} A campaign generation workflow that brings together brand identity, the curated review evidence, and the user brief inside a per-stage prompt with a fixed output schema. Each call returns audience direction, budget allocation, and copy for one stage of a Meta-style funnel.
   \item \textbf{C5.} A creative production workflow that extends generation beyond text. For every funnel stage the platform produces a 9:16 video and several 4:5 portrait static images, with two separate copy surfaces (text rendered onto the image, and a paste-ready caption for the ad platform). Brand assets feed the same workflow: an uploaded or in-app generated logo, a product image, a brand-guidelines PDF, and optional promo fields. A concept-product mode covers the case where the user does not yet have a real product photo.
   \item \textbf{C6.} An evidence-traceability layer inside the user interface. Every generated block is linked back to the review excerpts that grounded it through an in-app evidence drawer, so the campaign can be read line by line against its source material.
-  \item \textbf{C7.} A direct qualitative comparison between a generic prompt and the structured review-grounded prompt across four products in four categories, judged against criteria taken from Meta's published creative best practices. The comparison reports specificity, traceability, and usefulness of the resulting ad material.
+  \item \textbf{C7.} A qualitative comparison between a generic prompt and the structured review-grounded prompt, judged against criteria taken from Meta's published creative best practices: one full campaign-text and image example (YumSticks) plus three further image-only examples in other categories. The comparison reports specificity, traceability, and usefulness of the resulting ad material.
   \item \textbf{C8.} A working demo system that runs the whole pipeline for a non-technical user. It is a Next.js web application backed by the offline-trained model and the review-intelligence artifacts, with a personalised dashboard, auto-saving drafts, PDF export, and email delivery.
 \end{itemize}
 
@@ -336,7 +336,7 @@ Each of the eight contributions named in \cref{sec:contributions} corresponds to
 \section{Solution overview}
 \label{sec:solution}
 
-MarketMind is a single review-intelligence platform with one job: turn the customer voice on product pages into a complete Meta-style advertising campaign that a small online seller can launch from a short brief. Everything inside the platform serves that one job. This section gives an extended prose version of the contributions listed in \cref{sec:contributions}, framed at the platform level before the architecture diagram appears in \cref{sec:arch}.
+MarketMind is a single review-intelligence platform with one job: turn the customer voice on product pages into a complete Meta-style advertising campaign that a small online seller can launch from a short brief. Everything inside the platform serves that one job. MarketMind is delivered as a functional online web application, not a pipeline script or a report artifact: a non-technical seller uses it through a browser, from the first screen to the exported campaign. This section gives an extended prose version of the contributions listed in \cref{sec:contributions}, framed at the platform level before the architecture diagram appears in \cref{sec:arch}.
 
 The platform is built around three commitments that distinguish it from a generic prompt-driven tool. The first commitment is that customer reviews are the primary source of truth for every creative choice. Sellers do not lack ad-copy generators; they lack ad copy that comes from what real buyers said about the product. MarketMind is therefore not a prompt-only tool. It is a small data pipeline with a generation step at the end. The trained sentiment classifier and the per-product profiles are not auxiliary to the platform; they are the centre of what the platform does.
 
@@ -438,7 +438,7 @@ The number that matters for the user interface is the size of that pool. The cam
 \section{Runtime pipeline: campaign generation}
 \label{sec:runtime}
 
-The runtime pipeline is the half of the platform that fires every time a user starts a campaign. It reads the review-intelligence artifact produced offline (\cref{sec:offline}), combines it with the user's brief and brand inputs, and returns a three-stage Meta-style campaign with copy and visuals on each stage. Five steps make up the pipeline: a goal-aware product ranking layer that picks the source product (\cref{sec:ranking}), a structured prompt that carries the curated evidence into the language model (\cref{sec:structured}), the brand inputs that condition the visual prompts (\cref{sec:brand}), the targeting and budget calculation that splits the funnel into stages (\cref{sec:targeting}), and the static-image and short-video generation that produces the rendered creatives (\cref{sec:visuals}).
+The runtime pipeline is the half of the platform that fires every time a user starts a campaign. It reads the review-intelligence artifact produced offline (\cref{sec:offline}), combines it with the user's brief and brand inputs, and returns a three-stage Meta-style campaign with copy and visuals on each stage. The pipeline runs in a short sequence: a goal-aware product ranking layer picks the source product (\cref{sec:ranking}), a structured prompt carries the curated evidence into the language model (\cref{sec:structured}), and the brand inputs, the targeting and budget split, and the visual generation follow as the closing runtime steps (\cref{sec:brand}).
 
 \subsection{Goal-aware product ranking}
 \label{sec:ranking}
@@ -471,28 +471,12 @@ Each creative block has two distinct copy surfaces. The first is the on-post tex
 
 The image, logo, concept-product, brand-guideline, and refinement prompts use the same pattern, but with narrower jobs. The static-image prompt prioritizes the uploaded product image, then the brand-guidelines PDF, then the logo, then free-text brand notes. The logo prompt is deliberately narrow: one flat 2D mark on a white background. The concept-product prompt creates a square concept render from the user's product idea and can reuse an uploaded logo. The refinement prompt edits only one creative block and keeps the strategy, audience, and budget locked. \Cref{app:prompts} gives the longer anatomy blocks for these prompts.
 
-\subsection{Brand inputs (logo and concept product)}
+\subsection{Brand inputs, targeting, and visual generation}
 \label{sec:brand}
 
-The brand panel collects whatever assets the user has. A logo upload is supported, and an in-app logo generator is provided for users who do not have a logo yet. The logo generator is deliberately kept narrow: flat 2D style, white background, fixed geometry and theme presets. The point is to produce a usable mark in seconds, not to compete with a full design tool.
+The remaining runtime steps reuse machinery already described, so they are kept brief here; \cref{sec:web} shows them in the running application. The brand panel collects whatever assets the seller has: a logo (uploaded, or made with a narrow in-app generator that produces a flat 2D mark on a white background), a product image, a brand-guidelines PDF parsed for fonts and colours, and free-text notes. Sellers with only an idea can use concept-product mode\label{sec:concept}, which places the chosen or generated logo onto rendered packaging so an early-stage seller does not need real photography first. Optional price and sale fields drive promo badges on the visuals; when they are blank the platform never invents a number, a rule enforced inside the visual prompt rather than only at the interface.
 
-Other brand inputs include a product image, a brand-guidelines PDF (parsed for fonts and colours), and free-text notes that the user can write in plain language. Optional promo fields (price, sale percentage) drive real promo badges on the static images. When those fields are empty, the platform never invents a number. This rule is checked inside the visual prompt, not only at the user interface level.
-
-Some users do not have a real product yet. They have an idea, perhaps a name, and possibly a logo. Concept-product mode\label{sec:concept} places the chosen or generated logo onto rendered packaging, and that becomes the visual base for the campaign creative. The user can iterate on the concept (refine the look, regenerate with a new prompt) before committing it to the campaign. This is how the platform supports very early-stage sellers without forcing them to produce real photography first.
-
-\subsection{Targeting, funnel, and budget}
-\label{sec:targeting}
-
-The user picks an audience, a tone, a business model, and a campaign goal on the brief screen. The campaign goal (engagement, traffic, or sales) maps to a three-stage funnel: an upper-funnel awareness or engagement stage, a middle-funnel consideration stage, and a lower-funnel sales stage. Stage 3 is locked to a sales objective by design, since most small sellers measure their campaign in conversions whether or not the upper funnel is engagement-led or traffic-led.
-
-The user enters a single total budget. The system splits it into dollar amounts across the three stages using percentages produced by the language model, then shows the suggested allocation. The same percentage rules apply inside each stage, so each block also has a share of its stage budget. \Cref{fig:metablock} in \cref{sec:metamapping} shows one such block with its share of the stage budget rendered alongside the campaign objective, audience, and creative.
-
-\subsection{Static images and short video}
-\label{sec:visuals}
-
-Each funnel stage has one short 9:16 video as the hero asset (8 seconds, visual-only) and several 4:5 portrait static images for the rest of the stage. All visuals are produced by current image and short-video models. The brand inputs from \cref{sec:brand} are carried into the visual prompts: a logo placement rule, a colour palette derived from any uploaded guidelines, and a font instruction when guidelines are present. The on-post text from the structured prompt is rendered onto the static images by the image model itself; the user does not assemble it manually afterwards.
-
-Promo badges are produced only when the user filled the optional price and sale fields. When the fields are empty the visuals contain no promo badge, no fake percentage, and no invented price. This rule sits inside the image prompt rather than only in the user interface.
+Targeting and budget follow from the brief. The campaign goal (engagement, traffic, or sales) maps to a three-stage funnel, an upper-funnel awareness or engagement stage, a middle-funnel consideration stage, and a lower-funnel sales stage that is locked to a sales objective by design. The seller enters one total budget and the language model returns the percentage split across the three stages and across the blocks inside each stage. Each stage then carries its visuals: one 9:16 visual-only video (8 seconds) as the hero asset and several 4:5 portrait static images, produced by current image and short-video models. The brand inputs are carried into those visual prompts as a logo-placement rule, a colour palette, and a font instruction, and the on-image text from the structured prompt (\cref{sec:structured}) is rendered onto the statics by the image model itself.
 
 \section{The web application}
 \label{sec:web}
@@ -844,7 +828,7 @@ The cleaned dataset of 49,989 reviews was split into three sets at the product l
 
 The DistilBERT model was trained on a free Colab T4 GPU with the hyperparameters listed in \cref{sec:distilbert}. The validation set was used to pick the best epoch by macro F1; the test set was seen exactly once at the end of training, after the best epoch was already chosen. Random seeds were fixed for NumPy, PyTorch, and CUDA (cudnn.deterministic was set to true), so the run is reproducible.
 
-The ranking sanity check uses the 1,357 products with at least ten reviews. For each product category, the top-N similar products are pulled under each of the three campaign goals, and the Jaccard overlap is computed between the resulting lists. The generation comparison covers four products across four categories under the same prompt structure (\cref{sec:ablation}). The cost-effectiveness check (\cref{sec:cost}) draws from Google's published Gemini API pricing page and from published GCC agency rate cards, all accessed on 2026-05-10. The key steps walkthrough (\cref{sec:walkthrough}) is qualitative.
+The ranking sanity check uses the 1,357 products with at least ten reviews. For each product category, the top-N similar products are pulled under each of the three campaign goals, and the Jaccard overlap is computed between the resulting lists. The generation comparison covers four examples in four categories under the same prompt structure: one full campaign-text and image comparison plus three image-only checks (\cref{sec:ablation}). The cost-effectiveness check (\cref{sec:cost}) draws from Google's published Gemini API pricing page and from published GCC agency rate cards, all accessed on 2026-05-10. The key steps walkthrough (\cref{sec:walkthrough}) is qualitative.
 
 \begin{table}[ht!]
   \centering
@@ -859,7 +843,7 @@ The ranking sanity check uses the 1,357 products with at least ten reviews. For 
     \addlinespace
     Ranking sanity check (\cref{sec:rankcheck}) & 1,357 products, three goals, Top-N Jaccard overlap & Confirms the goal changes which products surface & Descriptive only, not an optimality claim \\
     \addlinespace
-    Generation comparison (\cref{sec:ablation}) & Four products across four categories, generic vs structured prompt & Qualitative content advantage of the structured prompt & Single-rater, no paid Meta delivery test \\
+    Generation comparison (\cref{sec:ablation}) & One full campaign example (YumSticks) plus three image-only examples, generic vs structured prompt & Qualitative content advantage of the structured prompt & Single-rater, no paid Meta delivery test \\
     \addlinespace
     Cost-effectiveness check (\cref{sec:cost}) & Google list prices and GCC agency rate cards, accessed 2026-05-10 & Order-of-magnitude viability, not a substitute claim & List prices change; agency package excludes named services \\
     \addlinespace
@@ -969,20 +953,22 @@ The rows above summarise the qualitative pattern observed across the ten product
 \section{Generation comparison: with vs without review evidence}
 \label{sec:ablation}
 
-The contribution on the language-model side is the structured prompt. To check whether the structure and the evidence block actually change what the model produces, the same brief is run twice against the same language model with the same decoding configuration. \textbf{Arm~A} sends a short, broad prompt with the basic ad fields requested. \textbf{Arm~B} sends the MarketMind structured prompt with a review-evidence block, caution rules, an output schema, copy rules, and a media rule. The deep example below is a dog-treat product, where the full thirteen-row copy table is reported. The same generic-vs-structured comparison is then shown across three further products in different categories (luxury car diffuser, premium baby diapers, sugar-free kids vitamin gummies). All four cases are qualitative prompt ablations, not a statistical test.
+The contribution on the language-model side is the structured prompt. To check whether the structure and the evidence block actually change what the model produces, the same brief is run twice against the same language model with the same decoding configuration. \textbf{Arm~A} sends a short, broad prompt with the basic ad fields requested. \textbf{Arm~B} sends the MarketMind structured prompt with a review-evidence block, caution rules, an output schema, copy rules, and a media rule. The section reports four qualitative examples, not a statistical test. Example~1 (YumSticks, dog treats) is the deep example: it reports both the generated campaign fields and the resulting image, so it carries the full thirteen-row copy table and a generic-vs-MarketMind image comparison. Examples~2 to~4 (Aura, Bambi, TinyGlow) are image-only checks that compare a generic image prompt against the MarketMind image prompt in three further categories; they do not repeat the full campaign-text comparison.
 
-\subsection*{Prompt structures, side by side}
+\subsection*{Example 1 --- YumSticks / dog treats (full text and image comparison)}
+
+\subsubsection*{Prompt structures, side by side}
 
 \textbf{Arm~A --- generic prompt.} One short instruction: ``create one Meta ad creative block for dog treats.'' A campaign goal, an audience descriptor, and a tone. A flat list of fields the output should include. No review evidence, no schema, no copy rules, no media rules, no caution rules.
 
 \textbf{Arm~B --- MarketMind prompt.} A campaign-stage context (cold-audience Stage~1). A review-intelligence block with positive evidence and friction or caution evidence. Fourteen numbered output fields covering objective rationale, audience, budget split, messaging angle, two distinct copy surfaces, and design direction plus visual concept. Copy rules (word counts, punctuation, single emoji on the Meta caption). A media rule (4:5 portrait static feed ad).
 
-\subsection*{Generated copy, field by field (dog treats / soft chicken-flavor)}
+\subsubsection*{Generated copy, field by field (dog treats / soft chicken-flavor)}
 
 {%
 \small
 \begin{longtable}{@{}p{1.3in}>{\raggedright\arraybackslash}p{2.2in}>{\raggedright\arraybackslash}p{2.2in}@{}}
-  \caption{Side-by-side copy output.}
+  \caption{Example~1, YumSticks: side-by-side copy output.}
   \label{tab:ablation} \\
   \toprule
   Field & Arm A (generic) & Arm B (MarketMind) \\
@@ -1027,7 +1013,7 @@ The contribution on the language-model side is the structured prompt. To check w
 
 Both prompts produced a usable Stage~1 ad and both selected Sales (Conversions) as the campaign objective. The differences sit elsewhere. The MarketMind prompt produced a more controlled Stage~1 rationale, an audience-led interest list rather than a competitor-led one, an explicit budget split as percentages rather than a daily dollar range, separated copy surfaces with a tight on-image headline and a different Meta caption, an evidence-grounded messaging angle, and a clearer separation between visual direction and visual concept. The generic prompt produced a fluent ad, but its primary text drifts into caption length, it invents a brand name (YumSticks), and it folds the visual direction and the visual concept into one block.
 
-\subsection*{Visual output}
+\subsubsection*{Visual output}
 
 The same prompt structure carries through to image generation. The generic image prompt receives the generic copy direction; the MarketMind image prompt receives the structured visual concept and brand-input rules. Both arms generate a single 4:5 portrait static for the same dog-treat product. The two outputs are shown in \cref{fig:imgcompare}.
 
@@ -1046,22 +1032,22 @@ The same prompt structure carries through to image generation. The generic image
     \includegraphics[width=\textwidth]{marketmind-image.jpg}\\[4pt]
     \small Realistic photography, controlled depth of field, clear product showcase, on-image price and discount badge.
   \end{minipage}
-  \caption{Generic image vs MarketMind image (same product, same model).}
+  \caption{Example~1, YumSticks: generic image vs MarketMind image (same product, same model).}
   \label{fig:imgcompare}
 \end{figure}
 
 The generic image looks more cartoonish and feels cheaper, with weaker product readability and a flatter, more illustrated style. The MarketMind image is closer to a realistic product photograph: warm lighting on the pouch, controlled depth of field that keeps the product in focus, a cleaner composition that matches the structured visual concept (split-screen feel between the dog and the product), and the optional promo signals carried through correctly. The price (\$19.99) and the 25\% OFF badge come from the structured prompt's promo handling, where those fields would be filled in by the user. In the generic prompt, no such fields exist, so the image relies on category visual tropes alone.
 
-\subsection*{Summary}
+\subsubsection*{Summary}
 
 Holding the model and decoding fixed, the structured prompt produced a Stage~1 ad that is more specific to the actual product: the targeting points to senior and small dogs, the messaging angle reuses real review themes (chicken flavor, soft texture, made in the USA), the copy is split across two surfaces with each one obeying its own rules, and the visual is closer to a usable direct-to-consumer pet-brand ad. The generic prompt produced a fluent and similar-looking output, but with broader targeting, an invented brand name, and a more illustrative visual style. On this run the structure plus the review evidence was the difference between a generic-feeling ad and a product-true one.
 
 \textbf{Honest limitations.} One product, one brief, one model run for each arm. The qualitative judgements above are a single-rater read of the generated text and image, not a blind multi-rater study, and the comparison is not statistical. The image differences include a promo badge that exists in the structured prompt's schema but not in the generic prompt; this is part of what the structured prompt contributes, but it also means the two images are not pixel-for-pixel comparable. There is no paid ad-performance test (no Meta delivery, no CTR, no CPA), so this section says nothing about real-world ad results. Arm~B's lift reflects the combined contribution of the review evidence, the structure, the copy rules, the media rule, and the promo handling together, and does not isolate which of those parts contributes how much. The result is an illustrative comparison, not a claim that the structured prompt always produces better copy or better visuals.
 
 \Needspace{4\baselineskip}
-\subsection*{Aura --- luxury car diffuser}
+\subsection*{Example 2 --- Aura (luxury car diffuser, image-only check)}
 
-Aura is a small luxury car diffuser sold to a premium-leaning audience. The same brief was sent through Arm~A (the generic prompt) and Arm~B (the MarketMind structured prompt). The two outputs are shown in \cref{fig:aura}.
+Aura is a small luxury car diffuser sold to a premium-leaning audience. This is an image-only check: a generic image prompt (Arm~A) against the MarketMind image prompt (Arm~B), with no campaign-text comparison. The two image outputs are shown in \cref{fig:aura}.
 
 \begin{figure}[ht!]
   \centering
@@ -1076,16 +1062,16 @@ Aura is a small luxury car diffuser sold to a premium-leaning audience. The same
     \textbf{Arm B --- MarketMind prompt}\\[4pt]
     \includegraphics[width=\textwidth]{aura-mm.jpg}
   \end{minipage}
-  \caption{Aura, generic vs MarketMind prompt.}
+  \caption{Example~2, Aura: generic image prompt vs MarketMind image prompt.}
   \label{fig:aura}
 \end{figure}
 
 The generic arm leans on competing badges, an ALL-CAPS headline, and decorative emojis on the call-to-action. The structured arm reads as a single value proposition with restrained on-image typography and one clear CTA, which matches Meta's published creative guidance for Feed ads.
 
 \Needspace{4\baselineskip}
-\subsection*{Bambi --- premium baby diapers}
+\subsection*{Example 3 --- Bambi (premium baby diapers, image-only check)}
 
-Bambi is a premium baby-diaper brand. The two arms produced the outputs shown in \cref{fig:bambi}.
+Bambi is a premium baby-diaper brand. As with Aura, this is an image-only check: a generic image prompt against the MarketMind image prompt. The two image outputs are shown in \cref{fig:bambi}.
 
 \begin{figure}[ht!]
   \centering
@@ -1100,16 +1086,16 @@ Bambi is a premium baby-diaper brand. The two arms produced the outputs shown in
     \textbf{Arm B --- MarketMind prompt}\\[4pt]
     \includegraphics[width=\textwidth]{bambi-mm.jpg}
   \end{minipage}
-  \caption{Bambi, generic vs MarketMind prompt.}
+  \caption{Example~3, Bambi: generic image prompt vs MarketMind image prompt.}
   \label{fig:bambi}
 \end{figure}
 
 The generic arm produces multiple competing visual signals (sunburst badges, several value claims at once, a noisy headline) and a small typo in the on-image copy. The structured arm produces a calmer composition with the product anchored visually, a single benefit headline, and a single CTA that matches the category and the audience.
 
 \Needspace{4\baselineskip}
-\subsection*{TinyGlow --- sugar-free kids vitamin gummies}
+\subsection*{Example 4 --- TinyGlow (sugar-free kids vitamin gummies, image-only check)}
 
-TinyGlow is a sugar-free kids vitamin-gummy brand sold to parents. The two arms produced the outputs shown in \cref{fig:tinyglow}.
+TinyGlow is a sugar-free kids vitamin-gummy brand sold to parents. This is also an image-only check, a generic image prompt against the MarketMind image prompt. The two image outputs are shown in \cref{fig:tinyglow}.
 
 \begin{figure}[ht!]
   \centering
@@ -1124,15 +1110,15 @@ TinyGlow is a sugar-free kids vitamin-gummy brand sold to parents. The two arms 
     \textbf{Arm B --- MarketMind prompt}\\[4pt]
     \includegraphics[width=\textwidth]{tinyglow-mm.jpg}
   \end{minipage}
-  \caption{TinyGlow, generic vs MarketMind prompt.}
+  \caption{Example~4, TinyGlow: generic image prompt vs MarketMind image prompt.}
   \label{fig:tinyglow}
 \end{figure}
 
 The generic arm reaches for ALL-CAPS shouting, multiple competing claims, and decorative typography that competes with the product. The structured arm puts the product first, leads with the single most relevant parent-facing claim (sugar-free), and uses one restrained CTA.
 
-\subsection*{Across the four products}
+\subsection*{Across the four examples}
 
-The pattern is consistent across the four products. The generic arm reaches for visual loudness (badges, shouting type, decorative emojis on the CTA, multiple competing claims) and occasionally trips on small craft errors (typos, invented brand names). The structured arm holds to one headline, one CTA, anchors the product visually, and lets the messaging angle come from a real review theme rather than from category clichés. None of these comparisons is a statistical test; they are a qualitative panel chosen to illustrate the kind of difference the structured prompt makes when the same brief is processed by the same model.
+The pattern is consistent across the four examples. The generic arm reaches for visual loudness (badges, shouting type, decorative emojis on the CTA, multiple competing claims) and occasionally trips on small craft errors (typos, invented brand names). The structured arm holds to one headline, one CTA, anchors the product visually, and lets the messaging angle come from a real review theme rather than from category clichés. Only Example~1 carries the full campaign-text comparison; Examples~2 to~4 show the image output alone. None of these comparisons is a statistical test; they are a qualitative panel chosen to illustrate the kind of difference the structured prompt makes when the same brief is processed by the same model.
 
 \section{Cost-effectiveness check}
 \label{sec:cost}
@@ -1232,7 +1218,7 @@ The pattern of ``small trained classifier plus structured prompt plus production
 \section{Limitations of this evaluation}
 \label{sec:evallimits}
 
-The five evaluation grades reported in this chapter do not all carry the same weight, and it is worth saying so directly. The classifier metrics in \cref{sec:classresults} are statistical and reproducible on a fixed test set. The ranking sanity check in \cref{sec:rankcheck} is descriptive: it confirms that the goal changes which products surface, but it is not an optimality claim about the ranking formula itself. The generation comparison in \cref{sec:ablation} covers four products in different categories, all judged by a single rater against criteria taken from Meta's published creative guidance; there is no inter-rater reliability score and no paid Meta delivery test, so the comparison says nothing about real-world ad performance such as click-through or cost per acquisition. The cost figures in \cref{sec:cost} are list-price approximations on both sides of the comparison and will move as Google's API prices and agency rate cards change. The key steps walkthrough in \cref{sec:walkthrough} demonstrates the deliverable end-to-end on a single developer machine and does not test multi-user load, real authentication, or production hosting. Together these grades support the claim that the system works as designed and that the structured prompt produces visibly different creative output; they do not support a stronger claim about marketing performance in the field, and that distinction is preserved throughout the report.
+The five evaluation grades reported in this chapter do not all carry the same weight, and it is worth saying so directly. The classifier metrics in \cref{sec:classresults} are statistical and reproducible on a fixed test set. The ranking sanity check in \cref{sec:rankcheck} is descriptive: it confirms that the goal changes which products surface, but it is not an optimality claim about the ranking formula itself. The generation comparison in \cref{sec:ablation} covers four examples in different categories, one full campaign-text and image comparison and three image-only checks, all judged by a single rater against criteria taken from Meta's published creative guidance; there is no inter-rater reliability score and no paid Meta delivery test, so the comparison says nothing about real-world ad performance such as click-through or cost per acquisition. The cost figures in \cref{sec:cost} are list-price approximations on both sides of the comparison and will move as Google's API prices and agency rate cards change. The key steps walkthrough in \cref{sec:walkthrough} demonstrates the deliverable end-to-end on a single developer machine and does not test multi-user load, real authentication, or production hosting. Together these grades support the claim that the system works as designed and that the structured prompt produces visibly different creative output; they do not support a stronger claim about marketing performance in the field, and that distinction is preserved throughout the report.
 
 
 % --------------------------------------------------------------
@@ -1309,7 +1295,7 @@ A fake-review filter in front of the classifier, plus a negative-spike anomaly d
 \chapter{Prompt Structure}
 \label{app:prompts}
 
-This appendix records the prompt anatomy used by the live web application. It is not a verbatim code dump. The full route files remain the source of record. This format keeps the report readable while still showing how the prompts are structured.
+This appendix records the prompt anatomy used by the live web application. It is not a verbatim code dump. The full route files remain the source of record. This format keeps the report readable while still showing how the prompts are structured. The prompt anatomy documented here supports the live application; the qualitative ablation in \cref{sec:ablation} draws on one deep text-and-image example (YumSticks) and three further image-only examples (Aura, Bambi, and TinyGlow).
 
 \section{Gemini 3.1 Pro campaign prompt}
 \label{sec:campprompt}
@@ -1372,7 +1358,7 @@ This appendix records the prompt anatomy used by the live web application. It is
   \item[\textsc{video support}] For Reels, the route first summarizes an uploaded brand-guidelines PDF into a compact brief, then passes that brief into the Veo prompt for mood, palette, lighting, and photographic feel. The video prompt stays visual-only and forbids added text overlays.
 \end{description}
 
-The qualitative ablation evidence for the structured prompt versus a generic prompt lives in \cref{sec:ablation}. This appendix documents prompt structure only. The structured-prompt advantage on the dog-treat run, with limitations, is reported in that section.
+The qualitative ablation evidence for the structured prompt versus a generic prompt lives in \cref{sec:ablation}. This appendix documents prompt structure only. The structured-prompt advantage on the YumSticks example, with limitations, is reported in that section.
 
 
 \chapter{Sample Campaign Outputs}
